@@ -10,7 +10,7 @@ if [ "$ENABLE_PROPOSER" == "true" ]; then
       --mxcL2 ${MXC_L2_ADDRESS} \
       --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY} \
       --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT} \
-      --proposeInterval "1s" \
+      --proposeInterval "3s" \
       --proposeEmptyBlockInterval "4h" \
       --txMinGasPrice "3000000000000" \
 else

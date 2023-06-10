@@ -27,6 +27,8 @@ services:
       - "${CHAIN_ID}"
       - --syncmode
       - full
+      - --gcmode
+      - archive
       - --datadir
       - /data/mxc-geth
       - --metrics
@@ -41,7 +43,7 @@ services:
       - "*"
       - --http
       - --http.api
-      - debug,eth,net,web3,txpool,mxc
+      - debug,admin,eth,net,web3,txpool,mxc
       - --http.addr
       - "0.0.0.0"
       - --http.vhosts
@@ -55,18 +57,12 @@ services:
       - "0.0.0.0"
       - --ws.origins
       - "*"
-      - --miner.gasprice
-      - "3000000000000"
-      - --gpo.maxprice
-      - "50000000000000"
-      - --gpo.ignoreprice
-      - "3000000000000"
       - --rpc.txfeecap
       - "0"
     <<: *logging
 
   mxc_client_driver:
-    image: gcr.io/mxczkevm/mxc-client:latest
+    image: gcr.io/mxczkevm/mxc-client:mxc-wannsee-alpha3
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -85,15 +81,15 @@ services:
       - ${MXC_L1_ADDRESS}
       - --mxcL2
       - ${MXC_L2_ADDRESS}
-      - --l2.throwawayBlockBuilderPrivKey
-      - ${L2_THROWAWAY_BLOCK_BUILDER_PRIVATE_KEY}
       - --jwtSecret
       - /data/mxc-geth/geth/jwtsecret
       - --p2p.syncVerifiedBlocks
+      - --p2p.checkPointSyncUrl
+      - 'https://wannsee-rpc.mxc.com'
     <<: *logging
 
   mxc_client_proposer:
-    image: gcr.io/mxczkevm/mxc-client:latest
+    image: gcr.io/mxczkevm/mxc-client:mxc-wannsee-alpha3
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -109,7 +105,7 @@ services:
     <<: *logging
 
   mxc_client_prover_relayer:
-    image: gcr.io/mxczkevm/mxc-client:latest
+    image: gcr.io/mxczkevm/mxc-client:mxc-wannsee-alpha3
     restart: unless-stopped
     pull_policy: always
     env_file:
@@ -126,7 +122,7 @@ services:
     <<: *logging
 
   zkevm-chain-prover-rpcd:
-    image: gcr.io/mxczkevm/wannsee-proverd:latest
+    image: gcr.io/mxczkevm/wannsee-proverd:mxc-wannsee-alpha3
     restart: unless-stopped
     ports:
       - "${PORT_ZKEVM_CHAIN_PROVER_RPCD}:9000"

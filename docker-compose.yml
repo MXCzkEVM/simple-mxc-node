@@ -8,7 +8,7 @@ x-logging:
 
 services:
   l2_execution_engine:
-    image: gcr.io/mxczkevm/mxc-geth:latest
+    image: gcr.io/mxczkevm/mxc-geth:mxc-wannsee-alpha3
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m

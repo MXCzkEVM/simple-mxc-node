@@ -8,7 +8,7 @@ x-logging:
 
 services:
   l2_execution_engine:
-    image: gcr.io/mxczkevm/mxc-geth:mxc-wannsee-alpha3
+    image: gcr.io/mxczkevm/mxc-geth:latest
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -62,7 +62,7 @@ services:
     <<: *logging
 
   mxc_client_driver:
-    image: gcr.io/mxczkevm/mxc-client:mxc-wannsee-alpha3
+    image: gcr.io/mxczkevm/mxc-client:latest
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -89,7 +89,7 @@ services:
     <<: *logging
 
   mxc_client_proposer:
-    image: gcr.io/mxczkevm/mxc-client:mxc-wannsee-alpha3
+    image: gcr.io/mxczkevm/mxc-client:latest
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -105,7 +105,7 @@ services:
     <<: *logging
 
   mxc_client_prover_relayer:
-    image: gcr.io/mxczkevm/mxc-client:mxc-wannsee-alpha3
+    image: gcr.io/mxczkevm/mxc-client:latest
     restart: unless-stopped
     pull_policy: always
     env_file:
@@ -122,7 +122,7 @@ services:
     <<: *logging
 
   zkevm-chain-prover-rpcd:
-    image: gcr.io/mxczkevm/wannsee-proverd:mxc-wannsee-alpha3
+    image: gcr.io/mxczkevm/mxc-proverd:latest
     restart: unless-stopped
     ports:
       - "${PORT_ZKEVM_CHAIN_PROVER_RPCD}:9000"

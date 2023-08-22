@@ -43,7 +43,7 @@ services:
       - "*"
       - --http
       - --http.api
-      - debug,admin,eth,net,web3,txpool,mxc
+      - debug,eth,net,web3,txpool,mxc
       - --http.addr
       - "0.0.0.0"
       - --http.vhosts
@@ -85,7 +85,7 @@ services:
       - /data/mxc-geth/geth/jwtsecret
       - --p2p.syncVerifiedBlocks
       - --p2p.checkPointSyncUrl
-      - 'https://wannsee-rpc.mxc.com'
+      - 'https://rpc.mxc.com'
     <<: *logging
 
   mxc_client_proposer:

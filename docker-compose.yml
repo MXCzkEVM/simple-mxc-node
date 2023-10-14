@@ -71,6 +71,8 @@ services:
       - ./data/l2_execution_engine_data:/data/mxc-geth
     command:
       - driver
+      - --l1.http
+      - ${L1_ENDPOINT_HTTP}
       - --l1.ws
       - ${L1_ENDPOINT_WS}
       - --l2.ws

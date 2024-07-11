@@ -3,7 +3,7 @@
 
 Tutorials:
 
-https://doc.mxc.com/docs/Tutorials/run-a-supernode
+https://doc.moonchain.com/docs/Tutorials/run-a-supernode
 
 Update:
 

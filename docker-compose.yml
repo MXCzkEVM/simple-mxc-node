@@ -6,14 +6,16 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.5.0
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-geneva
+    build:
+      context: ../mxc-geth
     restart: unless-stopped
     pull_policy: always
     env_file:
       - .env
     stop_grace_period: 3m
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./data/l2_execution_engine_data:/data/moonchain-geth
     ports:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
       - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
@@ -21,21 +23,22 @@ services:
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
     command: |
-      --taiko
+      --mxc
       --networkid "${CHAIN_ID}"
       --gcmode archive
-      --datadir /data/taiko-geth
+      --datadir /data/moonchain-geth
+      --rpc.txfeecap "0"
       --metrics
       --metrics.addr "0.0.0.0"
       --bootnodes ${BOOT_NODES}
       --authrpc.addr "0.0.0.0"
       --authrpc.vhosts "*"
       --http
-      --http.api debug,eth,net,web3,txpool,taiko
+      --http.api debug,eth,net,web3,txpool,taiko,moonchain
       --http.addr "0.0.0.0"
       --http.vhosts "*"
       --ws
-      --ws.api debug,eth,net,web3,txpool,taiko
+      --ws.api debug,eth,net,web3,txpool,taiko,moonchain
       --ws.addr "0.0.0.0"
       --ws.origins "*"
       --gpo.defaultprice "10000000"
@@ -43,6 +46,7 @@ services:
       --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
       --maxpeers ${MAXPEERS:-50}
       --maxpendpeers ${MAXPENDPEERS:-0}
+      --verbosity ${VERBOSITY:-4}
       ${GETH_ADDITIONAL_ARGS:-}
     <<: *logging
     profiles:
@@ -50,8 +54,8 @@ services:
       - prover
       - proposer
 
-  taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.29.0
+  moonchain_client_driver:
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-geneva
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -59,7 +63,7 @@ services:
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./data/l2_execution_engine_data:/data/moonchain-geth
       - ./script:/script
     entrypoint:
       - /bin/sh
@@ -71,13 +75,13 @@ services:
       - prover
       - proposer
 
-  taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.29.0
+  moonchain_client_prover_relayer:
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-geneva
     restart: unless-stopped
     pull_policy: always
     depends_on:
       - l2_execution_engine
-      - taiko_client_driver
+      - moonchain_client_driver
     ports:
       - "${PORT_PROVER_SERVER}:9876"
     env_file:
@@ -92,17 +96,17 @@ services:
     profiles:
       - prover
 
-  taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.29.0
+  moonchain_client_proposer:
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-geneva
     restart: unless-stopped
     pull_policy: always
     depends_on:
       - l2_execution_engine
-      - taiko_client_driver
+      - moonchain_client_driver
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./data/l2_execution_engine_data:/data/moonchain-geth
       - ./script:/script
     entrypoint:
       - /bin/sh
@@ -119,7 +123,7 @@ services:
       - ${PORT_PROMETHEUS}:9090
     depends_on:
       - l2_execution_engine
-      - taiko_client_driver
+      - moonchain_client_driver
     volumes:
       - ./docker/prometheus/l2:/etc/prometheus
       - prometheus_data:/prometheus
@@ -139,7 +143,7 @@ services:
       - ${PORT_GRAFANA}:3000
     depends_on:
       - l2_execution_engine
-      - taiko_client_driver
+      - moonchain_client_driver
       - prometheus
     environment:
       - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
@@ -156,6 +160,5 @@ services:
       - proposer
 
 volumes:
-  l2_execution_engine_data:
   prometheus_data:
   grafana_data:

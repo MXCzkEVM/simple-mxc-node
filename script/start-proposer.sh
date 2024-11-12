@@ -9,9 +9,12 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --jwtSecret /data/taiko-geth/geth/jwtsecret
+        --jwtSecret /data/moonchain-geth/geth/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
-        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
+        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
+        --epoch.interval ${EPOCH_INTERVAL}
+        --epoch.minProposingInterval ${EPOCH_MIN_PROPOSING_INTERNAL}
+        "
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"

@@ -5,18 +5,21 @@ set -eou pipefail
 if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.ws ws://l2_execution_engine:8546
-        --l1.http ${L1_ENDPOINT_HTTP}
         --l2.http http://l2_execution_engine:8545
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
-        --raiko.host ${SGX_RAIKO_HOST}"
+        --raiko.host ${SGX_RAIKO_HOST}
+        --guardianProverMinority ${GUARDIAN_PROVER_MINORITY}
+        --guardianProverMajority ${GUARDIAN_PROVER_MAJORITY}"
 
-    if [ -z "$SGX_RAIKO_HOST" ]; then
-        echo "Error: SGX_RAIKO_HOST must be non-empty"
-        exit 1
+    if [ -z "$GUARDIAN_PROVER_MAJORITY" ] && [ -z "$GUARDIAN_PROVER_MINORITY" ]; then
+        if [ -z "$SGX_RAIKO_HOST" ]; then
+            echo "Error: SGX_RAIKO_HOST must be non-empty"
+            exit 1
+        fi
     fi
 
     if [ -z "$L1_ENDPOINT_WS" ]; then

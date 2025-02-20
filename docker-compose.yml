@@ -37,6 +37,7 @@ services:
       --http.api debug,eth,net,web3,txpool,taiko,moonchain
       --http.addr "0.0.0.0"
       --http.vhosts "*"
+      --http.corsdomain "*"
       --ws
       --ws.api debug,eth,net,web3,txpool,taiko,moonchain
       --ws.addr "0.0.0.0"

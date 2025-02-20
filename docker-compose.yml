@@ -7,8 +7,6 @@ x-logging: &logging
 services:
   l2_execution_engine:
     image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
-    build:
-      context: ../mxc-geth
     restart: unless-stopped
     pull_policy: always
     env_file:

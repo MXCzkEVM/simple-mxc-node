@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-geneva
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
     build:
       context: ../mxc-geth
     restart: unless-stopped
@@ -55,7 +55,7 @@ services:
       - proposer
 
   moonchain_client_driver:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-geneva
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -76,7 +76,7 @@ services:
       - proposer
 
   moonchain_client_prover_relayer:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-geneva
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -97,7 +97,7 @@ services:
       - prover
 
   moonchain_client_proposer:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-geneva
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
     restart: unless-stopped
     pull_policy: always
     depends_on:

@@ -39,6 +39,10 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --txPool.locals ${TXPOOL_LOCALS}"
     fi
 
+    if [ -n "$TX_POOL_BLOCK_ADDRESSES" ]; then
+        ARGS="${ARGS} --txPool.blockAddresses ${TX_POOL_BLOCK_ADDRESSES}"
+    fi
+
     if [ "$BLOB_ALLOWED" == "true" ]; then
         ARGS="${ARGS} --l1.blobAllowed"
     fi

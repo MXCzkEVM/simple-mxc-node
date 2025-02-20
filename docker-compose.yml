@@ -55,7 +55,7 @@ services:
       - proposer
 
   moonchain_client_driver:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-mainnet
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -76,7 +76,7 @@ services:
       - proposer
 
   moonchain_client_prover_relayer:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-mainnet
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -97,7 +97,7 @@ services:
       - prover
 
   moonchain_client_proposer:
-    image: us-docker.pkg.dev/mxczkevm/images/moonchain-geth:moonchain-mainnet
+    image: us-docker.pkg.dev/mxczkevm/images/moonchain-client:moonchain-mainnet
     restart: unless-stopped
     pull_policy: always
     depends_on:
